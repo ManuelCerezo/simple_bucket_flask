@@ -36,6 +36,17 @@ def get_image(id):
         return "img not allowed"
     return Response(img.img, mimetype = img.mimetype)
 
+
+@app.route('/delete-img/<int:id>')
+def delete_img(id):
+    try: 
+        Img.query.filter_by(id = id).delete()
+        db.session.commit()
+        return {"estado":"OK"}
+    except:
+        return{"estado":"NOT-OK"}
+
+
 @app.route('/dropzone',methods=['GET'])
 def dropzone():
     return render_template('drag_drop.html')
