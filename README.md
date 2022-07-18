@@ -6,3 +6,4 @@
 
 First of all, you need to create a /database directory, before, create bucket.db sqlite file, inside it.
 command: "flask run" to set up bucket api
+{{ adad }}
