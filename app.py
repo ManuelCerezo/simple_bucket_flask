@@ -52,14 +52,11 @@ def dropzone_upload(type):
         add_to_sql()
         return {"estado":"subido"},200
     
-    
-
 
 def add_to_sql():
     for pic in pictures:
         db.session.add(pic)
-        
     db.session.commit()
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True,host="0.0.0.0")
