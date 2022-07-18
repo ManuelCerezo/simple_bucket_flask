@@ -10,6 +10,8 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = SQLALCHEMY_TRACK_MODIFICATIONS
 
 init_db(app)
 
+pictures = []
+
 @app.route('/')
 def index():
     return render_template('upload.html')
@@ -34,6 +36,29 @@ def get_image(id):
         return "img not allowed"
     return Response(img.img, mimetype = img.mimetype)
 
+@app.route('/dropzone',methods=['GET'])
+def dropzone():
+    return render_template('drag_drop.html')
+
+@app.route('/dropzone/images/<int:type>',methods=['POST'])
+def dropzone_upload(type):
+
+    if type == 1:
+        pic = request.files['file']
+        filename = secure_filename(pic.filename)
+        mimetype = pic.mimetype
+        pictures.append(Img(img=pic.read(), mimetype = mimetype, name = filename, ))
+        return "",200
+
+    if type == 2:
+        add_to_sql(pictures)
+        return "",200
+    
+    
+
+
+def add_to_sql(pictures):
+    print(pictures)
 
 if __name__ == '__main__':
     app.run(debug=True)
